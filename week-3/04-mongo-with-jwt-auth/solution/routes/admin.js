@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const adminMiddleware = require("../middleware/admin");
 const { Admin, User, Course } = require("../db");
-const {JWT_SECRET} = require("../config");
+const {JWT_SECRET} = require("../secret.j");
 const router = Router();
 const jwt = require("jsonwebtoken");
 
@@ -10,8 +10,7 @@ router.post('/signup', async (req, res) => {
     // Implement admin signup logic
     const username = req.body.username;
     const password = req.body.password;
-
-    // check if a user with this username already exists
+    
     await Admin.create({
         username: username,
         password: password
@@ -22,17 +21,18 @@ router.post('/signup', async (req, res) => {
     })
 });
 
+//agr banda sign in kar raha hai and wo registered hai toh hi uski jwt return karo!
 router.post('/signin', async (req, res) => {
     // Implement admin signup logic
     const username = req.body.username;
     const password = req.body.password;
     console.log(JWT_SECRET);
 
-    const user = await User.find({
+    const Admin = await Admin.find({
         username,
         password
     })
-    if (user) {
+    if (Admin){
         const token = jwt.sign({
             username
         }, JWT_SECRET);
@@ -42,7 +42,7 @@ router.post('/signin', async (req, res) => {
         })
     } else {
         res.status(411).json({
-            message: "Incorrect email and pass"
+            message: "Incorrect Credentials"
         })
     }
 });
@@ -63,7 +63,8 @@ router.post('/courses', adminMiddleware, async (req, res) => {
     })
 
     res.json({
-        message: 'Course created successfully', courseId: newCourse._id
+        message: 'Course created successfully', 
+        courseId: newCourse._id
     })
 });
 
