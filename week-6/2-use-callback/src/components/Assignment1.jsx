@@ -7,11 +7,11 @@ export function Assignment1() {
 
     // Your code starts here
     function handleIncrement() {
-
+        setCount(count+1);
     }
-
+    
     function handleDecrement() {
-        
+        setCount(count-1);
     }
     // Your code ends here
 
@@ -25,7 +25,8 @@ export function Assignment1() {
 
 const CounterButtons = ({ onIncrement, onDecrement }) => (
     <div>
-        <button onClick={onIncrement}>Increment</button>
-        <button onClick={onDecrement}>Decrement</button>
+        <button onClick={onIncrement} style={{margin:"4px"}}>Increment</button>
+        <br></br>
+        <button onClick={onDecrement} style={{margin:"4px"}}>Decrement</button>
     </div>
 );
